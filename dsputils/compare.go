@@ -82,12 +82,12 @@ func PrettyClose2F(a, b [][]float64) bool {
 
 // ComplexEqual returns true if a and b are very close, else false.
 func ComplexEqual(a, b complex128) bool {
-	r_a := real(a)
-	r_b := real(b)
-	i_a := imag(a)
-	i_b := imag(b)
+	rA := real(a)
+	rB := real(b)
+	iA := imag(a)
+	iB := imag(b)
 
-	return Float64Equal(r_a, r_b) && Float64Equal(i_a, i_b)
+	return Float64Equal(rA, rB) && Float64Equal(iA, iB)
 }
 
 // Float64Equal returns true if a and b are very close, else false.

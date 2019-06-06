@@ -90,18 +90,18 @@ func MakeEmptyMatrix(dims []int) *Matrix {
 }
 
 // offset returns the index in the one-dimensional array
-func (s *Matrix) offset(dims []int) int {
-	if len(dims) != len(s.dims) {
+func (m *Matrix) offset(dims []int) int {
+	if len(dims) != len(m.dims) {
 		panic("incorrect dimensions")
 	}
 
 	i := 0
 	for n, v := range dims {
-		if v > s.dims[n] {
+		if v > m.dims[n] {
 			panic("incorrect dimensions")
 		}
 
-		i += v * s.offsets[n]
+		i += v * m.offsets[n]
 	}
 
 	return i
@@ -153,16 +153,17 @@ func (m *Matrix) Dimensions() []int {
 //   m.Dim([]int {1, 0, -1}) = []complex128 {3, 4, 5, 6}
 //   m.Dim([]int {0, -1, 2}) = []complex128 {3, 7, 1}
 //   m.Dim([]int {-1, 1, 3}) = []complex128 {8, 0}
-func (s *Matrix) Dim(dims []int) []complex128 {
-	inds := s.indexes(dims)
+func (m *Matrix) Dim(dims []int) []complex128 {
+	inds := m.indexes(dims)
 	r := make([]complex128, len(inds))
 	for n, v := range inds {
-		r[n] = s.list[v]
+		r[n] = m.list[v]
 	}
 
 	return r
 }
 
+//SetDim sets the matrix dimention
 func (m *Matrix) SetDim(x []complex128, dims []int) {
 	inds := m.indexes(dims)
 	if len(x) != len(inds) {
@@ -176,14 +177,14 @@ func (m *Matrix) SetDim(x []complex128, dims []int) {
 
 // Value returns the value at the given index.
 // m.Value([]int {1, 2, 3, 4}) is equivalent to m[1][2][3][4].
-func (s *Matrix) Value(dims []int) complex128 {
-	return s.list[s.offset(dims)]
+func (m *Matrix) Value(dims []int) complex128 {
+	return m.list[m.offset(dims)]
 }
 
 // SetValue sets the value at the given index.
 // m.SetValue(10, []int {1, 2, 3, 4}) is equivalent to m[1][2][3][4] = 10.
-func (s *Matrix) SetValue(x complex128, dims []int) {
-	s.list[s.offset(dims)] = x
+func (m *Matrix) SetValue(x complex128, dims []int) {
+	m.list[m.offset(dims)] = x
 }
 
 // To2D returns the 2-D array equivalent of the Matrix.
